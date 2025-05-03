@@ -1,37 +1,25 @@
-FROM php:8.1-fpm-alpine
+FROM php:8.2-fpm
 
-WORKDIR /var/www/html
+# Cài tiện ích hệ thống và PHP extensions
+RUN apt-get update && apt-get install -y \
+    zip unzip curl libzip-dev libonig-dev libpng-dev \
+    && docker-php-ext-install pdo pdo_mysql mbstring zip
 
-# Cài đặt các dependencies hệ thống và PHP extensions cần thiết
-RUN apk add --no-cache git
-RUN apk add --no-cache curl
-RUN apk add --no-cache zip
-RUN apk add --no-cache unzip
-RUN apk add --no-cache libzip-dev
-RUN apk add --no-cache icu-dev
-RUN apk add --no-cache oniguruma-dev
-RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql zip intl mbstring
-RUN docker-php-ext-enable pdo_mysql intl mbstring
+# Cài Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Cài đặt Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Sao chép source code ứng dụng
+# Copy mã nguồn Laravel vào container
+WORKDIR /var/www
 COPY . .
 
-# Cài đặt các dependencies PHP
+# Cài Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Tạo file .env từ .env.example (nếu cần)
-RUN cp .env.example .env
+# Tạo file .env và generate key
+RUN cp .env.example .env && php artisan key:generate
 
-# Tạo application key
-RUN php artisan key:generate
+# Laravel permissions
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Chỉnh quyền thư mục
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 storage bootstrap/cache
-
-EXPOSE 9000
-
-ENTRYPOINT ["php-fpm"]
+EXPOSE 8000
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
