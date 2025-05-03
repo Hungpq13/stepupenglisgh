@@ -1,34 +1,28 @@
-# Sử dụng PHP-FPM image
+# Dùng PHP 8.1 FPM làm base image
 FROM php:8.1-fpm
 
-# Cài đặt các extension PHP cần thiết
-RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev zip git curl
+# Cài các package hệ thống cần thiết
+RUN apt-get update && apt-get install -y \
+    git curl zip unzip libzip-dev libpng-dev libonig-dev libxml2-dev \
+    && docker-php-ext-install pdo pdo_mysql zip
 
-# Cài đặt Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Cài Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Cài đặt các extension PHP
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg && docker-php-ext-install gd
-
-# Sao chép mã nguồn vào container
-COPY . /var/www/html
-
+# Tạo thư mục làm việc trong container
 WORKDIR /var/www/html
 
-# Cài đặt các phụ thuộc của Laravel
+# Copy toàn bộ source code vào container
+COPY . .
+
+# Cài đặt Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Chạy các lệnh Artisan
+# Tạo app key
 RUN php artisan key:generate
-RUN php artisan migrate --force
 
-# Cấu hình NGINX để phục vụ ứng dụng
-CMD ["php-fpm"]
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Expose port 8000
+EXPOSE 8000
 
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 storage bootstrap/cache
-
-EXPOSE 9000
-
-ENTRYPOINT ["php-fpm"]
+# Command chạy server Laravel
+CMD php artisan serve --host=0.0.0.0 --port=8000
