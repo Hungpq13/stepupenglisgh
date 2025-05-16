@@ -47,5 +47,11 @@ RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available
 
 # Set quyền cho Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Chạy các lệnh artisan cần thiết
+RUN php /var/www/html/artisan key:generate
+RUN php /var/www/html/artisan config:clear
+RUN php /var/www/html/artisan config:cache
+RUN php /var/www/html/artisan route:clear
+RUN php /var/www/html/artisan view:clear
 
 EXPOSE 80
