@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::view('/gioi-thieu', 'gioithieu');
-Route::view('/khoa-hoc', 'khoahoc');
-Route::view('/lien-he', 'lienhe');
-Route::view('/tuyen-dung', 'tuyendung');
+Route::view('/ve-chung-toi', 'about');
+Route::view('/san-pham', 'product');
+Route::view('/lien-he', 'contact');
+Route::view('/feedback', 'feedback');
 
