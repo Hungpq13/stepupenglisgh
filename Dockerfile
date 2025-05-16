@@ -7,7 +7,8 @@ COPY . .
 RUN npm run build
 
 # Thêm ServerName vào apache config để tắt cảnh báo
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+RUN echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf \
+ && a2enconf servername
 
 
 
