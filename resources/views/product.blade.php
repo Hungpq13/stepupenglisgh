@@ -2,9 +2,10 @@
 <style>
     .video-section {
     margin-top: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 3fr));
+    gap: 20px;
+
     min-height: 60vh;
 }
 
@@ -13,7 +14,7 @@
     border-radius: 18px;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
     padding: 32px 24px 24px 24px;
-    max-width: 480px;
+    max-width: 380px;
     width: 100%;
     text-align: center;
 }
@@ -51,21 +52,11 @@
 }
 </style>
 <body>
-   <div class="video-section">
-        <div class="video-card">
-            <div class="video-responsive">
-                <iframe
-                    src="https://www.youtube.com/embed/NMfhd21ghQw?list=RDNMfhd21ghQw&start_radio=1"
-                    frameborder="0"
-                    allowfullscreen>
-                </iframe>
-            </div>
-            <h2 class="video-title">Tên Sản Phẩm Nổi Bật</h2>
-            <p class="video-desc">
-                Đây là mô tả ngắn về sản phẩm hoặc video. Bạn có thể thêm thông tin, liên kết hoặc nút mua hàng ở đây.
-            </p>
-        </div>
+    <div class="container">
+        <div class="list-member">
+    <div class="age-group-container">
+       @include('components.product_card')
 
-    </div>
+    </div> </div></div>
 </body>
 </html>
