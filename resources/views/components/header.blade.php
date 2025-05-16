@@ -31,7 +31,7 @@
      <div id="root" style="position:fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
         <div id="root"></div>
      </div>
-    <script type="module" src="{{ asset('react/dist/assets/index-0sTEjenx.js') }}"></script>
+    <script type="module" src="{{ asset('https://stepupenglisgh.onrender.com/react/dist/assets/index-0sTEjenx.js') }}"></script>
 <header>
     <nav >
         <div class="menu-toggle" onclick="toggleMenu()">☰</div>
