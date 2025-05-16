@@ -9,7 +9,8 @@ RUN npm run build
 # ===== Stage 2: Composer install =====
 FROM composer:2 AS vendor
 WORKDIR /app
-COPY . .  # ✅ Fix: cần cả artisan + composer.json
+COPY . .  
+# ✅ Fix: cần cả artisan + composer.json
 RUN composer install --no-dev --optimize-autoloader
 
 # ===== Stage 3: Laravel + Apache =====
