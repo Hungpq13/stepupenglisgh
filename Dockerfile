@@ -1,25 +1,24 @@
-FROM php:8.2-fpm
+FROM php:8.2-apache
 
-# Cài tiện ích hệ thống và PHP extensions
+# Cài extension PHP cần thiết
 RUN apt-get update && apt-get install -y \
-    zip unzip curl libzip-dev libonig-dev libpng-dev \
-    && docker-php-ext-install pdo pdo_mysql mbstring zip
+    git zip unzip curl libzip-dev \
+    && docker-php-ext-install zip pdo pdo_mysql
 
 # Cài Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy mã nguồn Laravel vào container
-WORKDIR /var/www
-COPY . .
+# Set document root là /var/www/html/public
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 
-# Cài Laravel dependencies
-RUN composer install --no-dev --optimize-autoloader
+# Override Apache config để trỏ đúng thư mục public/
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/000-default.conf
 
-# Tạo file .env và generate key
-RUN cp .env.example .env && php artisan key:generate
+# Copy project vào container
+COPY . /var/www/html
 
-# Laravel permissions
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# Phân quyền (nếu cần)
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-EXPOSE 8000
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Enable Apache rewrite module (Laravel cần)
+RUN a2enmod rewrite
