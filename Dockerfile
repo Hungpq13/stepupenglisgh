@@ -1,37 +1,40 @@
+# ===== Stage 1: Build React/Vite =====
+FROM node:18 AS node-build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# ===== Stage 2: Composer install =====
+FROM composer:2 AS vendor
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader
+
+# ===== Stage 3: Laravel + Apache =====
 FROM php:8.2-apache
 
 # Cài extension PHP cần thiết
 RUN apt-get update && apt-get install -y \
     git zip unzip curl libzip-dev \
     && docker-php-ext-install zip pdo pdo_mysql
-#  Build React (nếu có)
-FROM node:18 AS node-build
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-# Nếu bạn dùng Vite hoặc Mix để build React
-RUN npm run build
-# Cài Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set document root là /var/www/html/public
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+# Copy Composer từ stage vendor
+COPY --from=vendor /app/vendor /var/www/html/vendor
 
-# Override Apache config để trỏ đúng thư mục public/
-RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf \
- && a2enmod rewrite
-
-
-# Sao chép source code vào container
+# Copy Laravel source code
 COPY . /var/www/html
 
-# Chạy composer install để tạo vendor/
-WORKDIR /var/www/html
-RUN composer install --no-dev --optimize-autoloader
+# Copy React build vào public (giả sử React build nằm trong /public sau `npm run build`)
+COPY --from=node-build /app/public /var/www/html/public
 
-# Phân quyền thư mục
-RUN chown -R www-data:www-data storage bootstrap/cache
+# Cấu hình Apache để trỏ vào thư mục public/
+RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf \
+ && a2enmod rewrite
 
-# Expose cổng 80 để truy cập web
+# Set quyền cho Laravel
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Mở cổng 80
 EXPOSE 80
