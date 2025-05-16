@@ -19,9 +19,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 
 # Override Apache config để trỏ đúng thư mục public/
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
-    /etc/apache2/sites-available/000-default.conf \
+RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf \
  && a2enmod rewrite
+
 
 # Sao chép source code vào container
 COPY . /var/www/html
