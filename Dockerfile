@@ -34,6 +34,9 @@ COPY --from=vendor /app/vendor /var/www/html/vendor
 # Copy React build vào public (nếu React build ra thư mục public)
 COPY --from=node-build /app/public /var/www/html/public
 
+# Tạo file .env nếu chưa có
+RUN if [ ! -f /var/www/html/.env ]; then cp /var/www/html/.env.example /var/www/html/.env; fi
+
 # Chạy lệnh để clear và cache config Laravel (nếu cần)
 RUN php /var/www/html/artisan config:clear
 RUN php /var/www/html/artisan config:cache
@@ -47,6 +50,7 @@ RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available
 
 # Set quyền cho Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
 # Chạy các lệnh artisan cần thiết
 RUN php /var/www/html/artisan key:generate
 RUN php /var/www/html/artisan config:clear
