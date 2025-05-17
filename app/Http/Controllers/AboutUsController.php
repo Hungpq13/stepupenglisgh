@@ -60,7 +60,7 @@ class AboutUsController extends Controller
                 ],
             ],
              [
-                'name'        => 'Tôi tên Phát',
+                'name'        => 'Trần Đức Phát',
                 'image'       => asset('images/Phat.jpg'),
                 'title'       => 'Game Creator',
                 'description' => 'Mình đóng vai trò phối hợp cùng các thành viên lên kế hoạch thực hiện yêu cầu môn học, đóng góp ý tưởng để sản phẩm hoàn thiện nhất. Hi vọng cô và các bạn sẽ hứng thú với những sản phẩm độc đáo từ nhóm mình nhé!',
@@ -69,9 +69,9 @@ class AboutUsController extends Controller
                     'instagram' => ''
                 ],
             ],
-           
+
         ];
- 
+
         return view('about', compact('team'));
     }
 }
