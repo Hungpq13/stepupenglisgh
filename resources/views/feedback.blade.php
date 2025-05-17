@@ -3,8 +3,8 @@
 <div class="container">
 <div class="feedback-form">
     <h2>Gửi Phản Hồi</h2>
-    {{-- <form action="{{ route('feedback.send') }}" method="POST"> --}}
-    <form action="{{ route('https://boomer-bridge.onrender.com/feedback.send') }}" method="POST">
+      <form action="{{ route('feedback.send') }}" method="POST">
+   {{-- <form action="{{ route('https://boomer-bridge.onrender.com/feedback.send') }}" method="POST"> --}}
         @csrf
         <label for="name">Họ tên</label>
         <input type="text" id="name" name="name" required>
