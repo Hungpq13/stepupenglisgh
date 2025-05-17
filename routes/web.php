@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\AboutUsController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,4 @@ Route::view('/san-pham', 'product');
 Route::view('/lien-he', 'contact');
 Route::view('/feedback', 'feedback');
 Route::post('/send-feedback', [FeedbackController::class, 'send'])->name('feedback.send');
+Route::get('/ve-chung-toi', [AboutUsController::class, 'index'])->name('about');

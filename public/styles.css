@@ -214,8 +214,9 @@ footer{
 
 .person-card .title {
     color: #ffcdf3;
-    font-weight: 500;
+    font-weight: bold;
     margin-bottom: 10px;
+    font-size : 18px ; 
 }
 
 .person-card .description {
