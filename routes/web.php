@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FeedbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +21,4 @@ Route::view('/ve-chung-toi', 'about');
 Route::view('/san-pham', 'product');
 Route::view('/lien-he', 'contact');
 Route::view('/feedback', 'feedback');
-
+Route::post('/send-feedback', [FeedbackController::class, 'send'])->name('feedback.send');

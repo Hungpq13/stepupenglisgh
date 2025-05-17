@@ -1,11 +1,23 @@
-  <div style="text-align: center; border-top: 1px solid #ddd; padding-top: 20px; font-size: 0.9em; color: #777; margin-top : 100px;">
-        <div class="lienhe" >
-        <div style="text-align: left;">
-            <h2>LIÊN HỆ</h2>
-            <p>Khu Vực Miền Nam</p>
-            <p>028 8307 5555 (Phím 1)</p>
+<footer>
+    <div class="footerContainer">
+        <div class="socialIcons">
+            <a href=""><i class="fa-brands fa-facebook"></i></a>
+            <a href=""><i class="fa-brands fa-instagram"></i></a>
+            <a href=""><i class="fa-brands fa-twitter"></i></a>
+            <a href=""><i class="fa-brands fa-google-plus"></i></a>
+            <a href=""><i class="fa-brands fa-youtube"></i></a>
         </div>
-        <div>
-        <p><strong>Trụ sở chính:</strong> 11-12 Đ. DTH, BN, Quận 3, Hồ Chí Minh</p>
-        <p><strong>Email:</strong> <a href="mailto:2256120034@hcmussh.edu.vn">2256120034@hcmussh.edu.vn</a></p> </div>
-</div>
+        <div class="footerNav">
+            <ul><li><a href="/">Trang chủ</a></li>
+                <li><a href="/ve-chung-toi">Về chúng tôi</a></li>
+                <li><a href="/san-pham">Sản phẩm</a></li>
+                <li><a href="/lien-he">Liên hệ</a></li>
+                <li><a href="/feedback">Feedback</a></li>
+            </ul>
+        </div>
+        
+    </div>
+    <div class="footerBottom">
+        <p>Copyright &copy;2025; Designed by <span class="designer">VMH</span></p>
+    </div>
+</footer>

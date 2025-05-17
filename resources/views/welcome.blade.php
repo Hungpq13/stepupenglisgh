@@ -1,12 +1,8 @@
   @include('components.header')
 <body>
 
-    <main>
+    <div class="container"> </div>
 
-
-
-     </main>
-
-
+{{-- @include('components.footer') --}}
 </body>
 </html>
