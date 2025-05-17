@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giới Thiệu - StepUp</title>
 
-    <link rel="stylesheet" href="https://boomer-bridge.onrender.com/styles.css"> 
+    <link rel="stylesheet" href="https://boomer-bridge.onrender.com/styles.css">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-      <link rel="stylesheet" href="{{ asset('styles.css') }}"> 
+      <link rel="stylesheet" href="{{ asset('styles.css') }}">
 
 
 </head>
@@ -47,7 +47,7 @@
         <div id="root"></div>
      </div>
       {{-- Nhúng file JS của React --}}
-         <script type="module" src="{{ asset('/react/dist/assets/index-0sTEjenx.js') }}"></script> 
+         <script type="module" src="{{ asset('/react/dist/assets/index-0sTEjenx.js') }}"></script>
      <script type="module" src="{{ asset('https://boomer-bridge.onrender.com/react/dist/assets/index-0sTEjenx.js') }}"></script>
 <header>
     <nav >
